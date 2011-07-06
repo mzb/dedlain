@@ -1,0 +1,99 @@
+a {
+	text-decoration: underline;
+	color: #03c;
+}
+
+a.action {
+	color: #C66;
+	padding: 2px;
+}
+a.action:hover {
+	text-decoration: none;
+	background-color: #C66;
+	color: #fff;
+}
+
+.button {
+	display: inline-block;
+	height: 28px;
+	padding: 0px 13px;
+	line-height: 30px;
+	font-size: 14px;
+	font-weight: bold;
+	color: #c66;
+	text-decoration: none;
+	-webkit-border-radius: 16px;
+	-moz-border-radius: 16px;
+	background: -webkit-gradient(linear, 0% 0, 0% 100%, from(#fff),
+		to(#e1e1e1) );
+	-moz-box-shadow: 2px 2px 2px #CCC;
+	-webkit-box-shadow: 2px 2px 2px #CCC;
+	box-shadow: 2px 2px 2px #CCC;
+}
+
+.page-title {
+	margin: 0px;
+	padding: 14px 10px;
+	background-color: #E5F1FA;
+	font-size: 16px;
+}
+
+.content-wrapper {
+	padding: 20px 10px;
+}
+
+input[type="text"],input[type="password"],textarea {
+	padding: 3px;
+	border: solid 1px #ccc;
+}
+
+input[type="text"]:focus,input[type="password"]:focus,textarea:focus {
+	border-color: #03c;
+}
+
+input[type="submit"],button {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+label,input[type="checkbox"] {
+	vertical-align: middle;
+}
+
+.field-with-errors {
+	color: red;
+}
+
+.field-with-errors input {
+	border: solid 1px red;
+}
+
+.field-with-errors .errors {
+	font-size: 12px;
+}
+
+.submit-cancel {
+	padding: 10px 0px;
+	border-top: 2px solid #f5f5f5;
+}
+
+table.data {
+	width: 100%;
+}
+
+table.data th {
+	text-align: center;
+	font-weight: bold;
+	padding: 10px;
+	background-color: #f5f5f5;
+}
+
+table.data td {
+	padding: 10px;
+	border-bottom: solid 2px #f5f5f5;
+	border-right: solid 1px #f5f5f5;
+}
+
+table.data tr th:last-child,table.data tr td:last-child {
+	border-right: none;
+}

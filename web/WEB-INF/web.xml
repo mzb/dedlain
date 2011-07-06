@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.5"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>dedlain</display-name>
+	<context-param>
+		<param-name>db.adapter</param-name>
+		<param-value>jdbc:sqlite</param-value>
+	</context-param>
+	<context-param>
+		<param-name>db.driver</param-name>
+		<param-value>org.sqlite.JDBC</param-value>
+	</context-param>
+	<context-param>
+		<param-name>db.host</param-name>
+		<param-value>WEB-INF/db</param-value>
+	</context-param>
+	<context-param>
+		<param-name>db.name</param-name>
+		<param-value>/dedlain.db</param-value>
+	</context-param>
+	<listener>
+		<description>ServletContextListener</description>
+		<listener-class>pk.ssi.dedlain.controllers.ApplicationListener</listener-class>
+	</listener>
+	<servlet>
+		<description />
+		<display-name>SessionsController</display-name>
+		<servlet-name>SessionsController</servlet-name>
+		<servlet-class>pk.ssi.dedlain.controllers.SessionsController</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>UsersController</servlet-name>
+		<servlet-class>pk.ssi.dedlain.controllers.UsersController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SessionsController</servlet-name>
+		<url-pattern>/sessions/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description />
+		<display-name>IterationsController</display-name>
+		<servlet-name>IterationsController</servlet-name>
+		<servlet-class>pk.ssi.dedlain.controllers.IterationsController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>IterationsController</servlet-name>
+		<url-pattern>/iterations/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description />
+		<display-name>ProjectsController</display-name>
+		<servlet-name>ProjectsController</servlet-name>
+		<servlet-class>pk.ssi.dedlain.controllers.ProjectsController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProjectsController</servlet-name>
+		<url-pattern>/projects/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UsersController</servlet-name>
+		<url-pattern>/users/*</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

@@ -1,0 +1,1 @@
+insert or ignore into `users` values (null, 'admin', 'sikret', 'Admin Adminowski', 'admin@kropka.pl', 1);
