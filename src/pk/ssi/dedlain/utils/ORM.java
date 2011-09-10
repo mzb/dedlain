@@ -7,7 +7,7 @@ import java.util.List;
 public abstract class ORM<M extends BaseModel> {
 
   protected Database db;
-  
+
   /**
    * Konstruktor.
    * @param db baza danych
@@ -15,12 +15,12 @@ public abstract class ORM<M extends BaseModel> {
   public ORM(Database db) throws Database.Error {
     this.db = db;
   }
-  
+
   /**
    * @return nazwa głowej tabeli, w której składowane są zarządzane modele.
    */
   public abstract String getTableName();
-  
+
   /**
    * Buduje instancję modelu na podstawie wyników zapytania do bazy.
    * @param row wynik zapytania
@@ -28,28 +28,28 @@ public abstract class ORM<M extends BaseModel> {
    * @throws Database.Error
    */
   public abstract M build(QueryResults row) throws Database.Error;
-  
+
   /**
    * Buduje instancję modelu na podstawie podanego atrybutu.
    * @param attr atrybut niezbędny do otworzenia instancji modelu (arg. konstruktora).
    * @return instancja modelu
    */
   public abstract M build(String attr);
-  
+
   /**
    * Dodaje do bazy wiersz reprezentujący podany model.
    * @param model model do zapisania
    * @throws Database.Error
    */
   public abstract void create(M model) throws Database.Error;
-  
+
   /**
    * Uaktualnia w bazie zapisany model.
    * @param model model do aktualizacji
    * @throws Database.Error
    */
   public abstract void update(M model) throws Database.Error;
-  
+
   /**
    * Wyszukuje w bazie listę modeli spełniających podane warunki.
    * @param conditions fragm SQL (klauzula WHERE)
@@ -69,20 +69,20 @@ public abstract class ORM<M extends BaseModel> {
     if (limit != null && !limit.isEmpty()) {
       query += " limit " + limit;
     }
-   
-		Object[] bindings = conditions != null ? 
-						Arrays.copyOfRange(conditions, 1, conditions.length) : new Object[] {};
-    QueryResults rows = db.query(query, bindings);
-    
-    List<M> models = new ArrayList<M>();
-    while (rows.next()) {
-      models.add(build(rows));
-    }
-    rows.close();
-    
-    return models;
+
+    Object[] bindings = conditions != null ? 
+        Arrays.copyOfRange(conditions, 1, conditions.length) : new Object[] {};
+        QueryResults rows = db.query(query, bindings);
+
+        List<M> models = new ArrayList<M>();
+        while (rows.next()) {
+          models.add(build(rows));
+        }
+        rows.close();
+
+        return models;
   }
-  
+
   /**
    * Wyszukuje pierwszy model spełniający podane warunki.
    * @param conditions klauzula WHERE
@@ -93,12 +93,12 @@ public abstract class ORM<M extends BaseModel> {
   public M findFirst(Object[] conditions, String order) throws ModelNotFoundError, Database.Error {
     List<M> results = find(conditions, order, "1");
     if (results.isEmpty()) {
-			throw new ModelNotFoundError(getTableName());
-		} else {
-			return results.get(0);
-		}
+      throw new ModelNotFoundError(getTableName());
+    } else {
+      return results.get(0);
+    }
   }
-  
+
   /**
    * Wyszukuje w bazie model o podanym ID.
    * @param id ID modelu
@@ -109,30 +109,31 @@ public abstract class ORM<M extends BaseModel> {
     return findFirst(new Object[]{ getTableName() + ".id = ?", id }, null);
   }
 
-	public M findById(String id) throws ModelNotFoundError, Database.Error {
+  public M findById(String id) throws ModelNotFoundError, Database.Error {
     return findFirst(new Object[]{ getTableName() + ".id = ?", id }, null);
-	}
-  
+  }
+
   /**
    * Zwraca ilosc obiektow w bazie spelniajacych podane warunki.
    * @param conditions klauzula WHERE
    * @return ilość obiektów
    * @throws Database.Error
    */
-  public long count(String conditions) throws Database.Error {
+  public long count(Object[] conditions) throws Database.Error {
     String query = "select count(*) as models_count from " + getTableName();
-    if (conditions != null && !conditions.isEmpty()) {
-      query += " where (" + conditions + ")";
+    if (conditions != null && conditions.length > 0) {
+      query += " where (" + conditions[0] + ")";
     }
-    
-    QueryResults rows = db.query(query);
-    
+    Object[] bindings = conditions != null ? 
+        Arrays.copyOfRange(conditions, 1, conditions.length) : new Object[]{};
+    QueryResults rows = db.query(query, bindings);
+
     if (!rows.empty()) {
       return rows.getLong("models_count");
     }
     return 0;
   }
-  
+
   /**
    * Zwraca obiekt w bazie posiadający kolumnę z podaną wartością lub tworzy taki obiekt, 
    * jeśli go nie znaleziono.
@@ -152,7 +153,7 @@ public abstract class ORM<M extends BaseModel> {
     }
     return model;
   }
-  
+
   /**
    * Zapisuje podany model do bazy - albo przez dodanie albo aktualizację - 
    * o ile powiodła się walidacja danych modelu.
@@ -173,19 +174,25 @@ public abstract class ORM<M extends BaseModel> {
    * @param conditions klauzula WHERE
    * @throws Database.Error
    */
-  public void delete(String conditions) throws Database.Error {
-    db.update(String.format("delete from %s where (%s)", getTableName(), conditions));
+  public void delete(Object[] conditions) throws Database.Error {
+    String stmt = "delete from " + getTableName();
+    if (conditions != null && conditions.length > 0) {
+      stmt += " where (" + conditions[0] + ")";
+    }
+    Object[] bindings = conditions != null ? 
+        Arrays.copyOfRange(conditions, 1, conditions.length) : new Object[]{};
+    db.update(stmt, bindings);
   }
-  
+
   /**
    * Usuwa podany model z bazy.
    * @param model model do usunięcia
    * @throws Database.Error
    */
   public void delete(M model) throws Database.Error {
-    delete(String.format("id = %d", model.getId()));
+    delete(new Object[]{ "id = ?", model.getId() });
   }
-  
+
   /**
    * Waliduje podany model. 
    * Klasy dziedziczące powinny przeciążyć tą metodę 
@@ -194,11 +201,11 @@ public abstract class ORM<M extends BaseModel> {
    * @throws ValidationErrors
    */
   public void validate(M model) throws Validation.Errors, Database.Error {
-    
+
   }
 
-	
-	public static class ModelNotFoundError extends Exception {
-		public ModelNotFoundError(String message) { super(message); }
-	}
+
+  public static class ModelNotFoundError extends Exception {
+    public ModelNotFoundError(String message) { super(message); }
+  }
 }

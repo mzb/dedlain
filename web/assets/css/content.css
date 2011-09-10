@@ -13,6 +13,11 @@ a.action:hover {
 	color: #fff;
 }
 
+p {
+	margin-top: 0;
+	margin-bottom: 18px;
+}
+
 .button {
 	display: inline-block;
 	height: 28px;
@@ -79,6 +84,7 @@ label,input[type="checkbox"] {
 
 table.data {
 	width: 100%;
+	margin-bottom: 18px;
 }
 
 table.data th {
@@ -86,6 +92,9 @@ table.data th {
 	font-weight: bold;
 	padding: 10px;
 	background-color: #f5f5f5;
+}
+#sidebar table.data th {
+  text-align: left;	
 }
 
 table.data td {
@@ -96,4 +105,9 @@ table.data td {
 
 table.data tr th:last-child,table.data tr td:last-child {
 	border-right: none;
+}
+
+#sidebar input[type="submit"], 
+#sidebar .action {
+  float: right;	
 }

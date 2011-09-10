@@ -1,1 +1,1 @@
-insert or ignore into `users` values (null, 'admin', 'sikret', 'Admin Adminowski', 'admin@kropka.pl', 1);
+insert or ignore into `users` values (null, 'admin', 'test', 'Admin Adminowski', 'admin@test.com', 1);

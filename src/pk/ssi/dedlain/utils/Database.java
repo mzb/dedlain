@@ -10,19 +10,19 @@ import java.util.logging.Logger;
 
 public class Database {
 
-	protected static final Logger log = Logger.getLogger("DB");
-  
-	protected Properties config;
+  protected static final Logger log = Logger.getLogger("DB");
+
+  protected Properties config;
   protected Connection connection;
 
   public Database(Properties config) throws Database.Error {
     try {
-			this.config = config;
-			
+      this.config = config;
+
       Class.forName(config.getProperty("driver"));
-			
-			String url = String.format("%s:%s%s", config.getProperty("adapter"), 
-							config.getProperty("host"), config.getProperty("name"));
+
+      String url = String.format("%s:%s%s", config.getProperty("adapter"), 
+          config.getProperty("host"), config.getProperty("name"));
       connection = DriverManager.getConnection(url);
 
       load();
@@ -32,7 +32,7 @@ public class Database {
       throw new Database.Error(e);
     }
   }
-  
+
   public void shutdown() throws Database.Error {
     if (connection != null) {
       try {
@@ -43,34 +43,39 @@ public class Database {
     }
   }
 
-  // FIXME: Wrazliwe na newlines
   private void load() throws Database.Error {
-    update(read(config.getProperty("host") + "/schema.sql"));
-		update(read(config.getProperty("host") + "/seeds.sql"));			
-	}
-  
+    String schemaStmts = read(config.getProperty("host") + "/schema.sql");
+    for (String stmt : schemaStmts.split(";")) {
+      update(stmt + ";");
+    }
+    schemaStmts = read(config.getProperty("host") + "/seeds.sql");
+    for (String stmt : schemaStmts.split(";")) {
+      update(stmt + ";");
+    }
+  }
+
   public QueryResults query(String sql, Object... bindings) throws Database.Error {
     PreparedStatement stmt = preparedStatement(sql, bindings);
-		log.info(sql);			
+    log.info(sql);			
     try {
       return new QueryResults(stmt.executeQuery());
     } catch (SQLException e) {
       throw new Database.Error(e);
     }
   }
-  
+
   public void update(String sql, Object... bindings) throws Database.Error {
     PreparedStatement stmt = preparedStatement(sql, bindings);
-		log.info(sql);
+    log.info(sql);
     try {
       stmt.executeUpdate();
     } catch (SQLException e) {
       throw new Database.Error(e);
     }
   }
-  
+
   protected PreparedStatement preparedStatement(String sql, Object... bindings) 
-      throws Database.Error {
+  throws Database.Error {
     try {
       PreparedStatement stmt = connection.prepareStatement(sql);
       int i = 1;
@@ -83,7 +88,7 @@ public class Database {
       throw new Database.Error(e);
     }
   }
-  
+
   protected String read(String fileName) throws Database.Error {
     StringBuilder sb = new StringBuilder();
     try {
@@ -92,7 +97,7 @@ public class Database {
       try {
         String line = null;
         while ((line = file.readLine()) != null) {
-          sb.append(line).append(System.getProperty("line.separator"));
+          sb.append(line);
         }
       } finally {
         file.close();
@@ -102,7 +107,7 @@ public class Database {
     }
     return sb.toString();
   }
-  
+
   public static class Error extends Exception {
     public Error(String msg) { super(msg); }
     public Error(Exception e) { super(e); }

@@ -3,7 +3,7 @@ body {
 	padding: 0px;
 	background-color: #e5e5e5;
 	font-family: "Lucida Grande", verdana, arial, helvetica, sans-serif;
-	font-size: 14px;
+	font-size: 13px;
 	color: #333;
 }
 
@@ -126,3 +126,6 @@ body {
 	border: solid 1px #C66;
 	color: darkred;
 }
+
+label, select, input {
+	vertical-align: middle;

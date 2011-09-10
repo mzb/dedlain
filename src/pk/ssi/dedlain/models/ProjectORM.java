@@ -1,5 +1,8 @@
 package pk.ssi.dedlain.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pk.ssi.dedlain.utils.Database;
 import pk.ssi.dedlain.utils.Database.Error;
 import pk.ssi.dedlain.utils.Validation;
@@ -44,6 +47,26 @@ public class ProjectORM extends ORM<Project> {
 	            " set `name` = ?, `description` = ? " + 
 	            " where (id = ?)", 
 	            new Object[]{ project.getName(), project.getDescription(), project.getId() });
+	}
+	
+	public List<User> getMembers(Project project) throws Error {
+	  QueryResults results = db.query(
+	      "select users.* from users join project_assignments pa on users.id = pa.user_id where (project_id = ?)", 
+	      new Object[]{ project.getId() });
+	  
+	  List<User> members = new ArrayList<User>();
+	  UserORM users = new UserORM(db);
+      while (results.next()) {
+        members.add(users.build(results));
+      }
+      results.close();
+      
+	  return members;
+	}
+	
+	public Long countMembers(Project project) throws Error {
+	  ProjectAssignmentORM assignments = new ProjectAssignmentORM(db);
+	  return assignments.count(new Object[]{ "project_id = ?", project.getId() });
 	}
 	
 	@Override

@@ -24,6 +24,15 @@
 		<description>ServletContextListener</description>
 		<listener-class>pk.ssi.dedlain.controllers.ApplicationListener</listener-class>
 	</listener>
+	
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.css</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.js</url-pattern>
+  </servlet-mapping>
 	<servlet>
 		<description />
 		<display-name>SessionsController</display-name>
@@ -38,6 +47,16 @@
 		<servlet-name>SessionsController</servlet-name>
 		<url-pattern>/sessions/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+    <description />
+    <display-name>TasksController</display-name>
+    <servlet-name>TasksController</servlet-name>
+    <servlet-class>pk.ssi.dedlain.controllers.TasksController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TasksController</servlet-name>
+    <url-pattern>/tasks/*</url-pattern>
+  </servlet-mapping>
 	<servlet>
 		<description />
 		<display-name>IterationsController</display-name>
@@ -58,10 +77,28 @@
 		<servlet-name>ProjectsController</servlet-name>
 		<url-pattern>/projects/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+    <description />
+    <display-name>ProjectAssignmentsController</display-name>
+    <servlet-name>ProjectAssignmentsController</servlet-name>
+    <servlet-class>pk.ssi.dedlain.controllers.ProjectAssignmentsController</servlet-class>
+  </servlet>
+	<servlet-mapping>
+    <servlet-name>ProjectAssignmentsController</servlet-name>
+    <url-pattern>/project-assignments/*</url-pattern>
+  </servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>UsersController</servlet-name>
 		<url-pattern>/users/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+    <servlet-name>HomeController</servlet-name>
+    <servlet-class>pk.ssi.dedlain.controllers.HomeController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HomeController</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

@@ -23,9 +23,9 @@
 						<%= user.getLogin() %></a></td>
 				<td><%= user.getName() %></td>
 				<td><%= user.getEmail() %></td>
-				<td style="text-align: center"><input name="admin"
-					type="checkbox" value="1" disabled="disabled"
-					<%= user.isAdmin() ? "checked=\"checked\"" : "" %> /></td>
+				<td style="text-align: center">
+					<%= user.isAdmin() ? "&radic;" : "" %>
+			 </td>
 				<td><a
 					href="<%= application.getContextPath() %>/users/edit?id=<%= user.getId() %>"
 					class="action">Edytuj</a> <% if (! user.getId().equals(currentUser.getId())) { %>

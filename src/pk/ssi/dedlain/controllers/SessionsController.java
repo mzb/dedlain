@@ -5,9 +5,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import pk.ssi.dedlain.models.Project;
 import pk.ssi.dedlain.models.User;
 import pk.ssi.dedlain.models.UserORM;
 import pk.ssi.dedlain.utils.Database;
+import pk.ssi.dedlain.utils.ORM.ModelNotFoundError;
 
 public class SessionsController extends ApplicationController {
 	private static final long serialVersionUID = 1L;
@@ -26,21 +28,18 @@ public class SessionsController extends ApplicationController {
 	@Override
 	protected void createAction(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 	  Database db = (Database) getServletContext().getAttribute("database");
-	  UserORM manager = new UserORM(db);
+	  UserORM users = new UserORM(db);
 	  
-    User user = manager.findFirst(new Object[]{ "login = ? and password = ?", 
+	  try {
+      User user = users.findFirst(new Object[]{ "login = ? and password = ?", 
             req.getParameter("login"), req.getParameter("password") }, null);
-    
-    if (user != null) {
       req.getSession(true).setAttribute("current_user", user);
-      
       message("Witaj " + user.getName(), "info", req);
-      redirect("/iterations/show/current", resp);
-      
-    } else {
+      redirect("/", resp);
+	  } catch (ModelNotFoundError e) {
       message("Nieprawidłowy login lub hasło", "error", req);
       redirect("/sessions/new", resp);
-    }
+	  }
 	}
 	
 	@Override

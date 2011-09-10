@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -15,7 +14,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>
 	<% String title = (String) request.getAttribute("title"); %> <% if (title != null && !title.isEmpty()) { %>
-	<%= title + " - " %> <% } %> Dedlain (SSI Projekt)</title>
+	<%= title + " - " %> <% } %> Dedlain (SSI - Projekt)</title>
 </head>
 
 <%@ page import="pk.ssi.dedlain.models.User"%>
@@ -27,7 +26,7 @@
 		<div id="session-links">
 			<% if (currentUser.getId() != null) { %>
 			<a
-				href="<%= application.getContextPath() %>/user/show/<%= currentUser.getId() %>"
+				href="<%= application.getContextPath() %>"
 				title="<%= currentUser.getName() %>"><%= currentUser.getName() %></a>
 			| <a href="<%= application.getContextPath() %>/sessions/delete"
 				onclick="return formalLink(this)" title="Wyloguj">Wyloguj</a>
