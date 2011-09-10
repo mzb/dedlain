@@ -26,16 +26,17 @@
 				</select>
 			</form>
 		<li>
-		<li
-			class="<%= "current_iteration".equals(currentPage) ? "current" : "" %>">
-			<a href="<%= application.getContextPath() %>/iterations/show/current"
-			title="Bieżąca iteracja">Bieżąca iteracja</a></li>
-		<li class="<%= "iterations".equals(currentPage) ? "current" : "" %>">
-			<a href="<%= application.getContextPath() %>/iterations"
-			title="Lista iteracji">Iteracje</a></li>
-		<li class="<%= "tasks".equals(currentPage) ? "current" : "" %>">
-			<a href="<%= application.getContextPath() %>/tasks" title="Zadania">Zadania</a></li>
-			
+	  <% if (session.getAttribute("current_project") != null) { %>
+			<li
+				class="<%= "current_iteration".equals(currentPage) ? "current" : "" %>">
+				<a href="<%= application.getContextPath() %>/iterations/show/current"
+				title="Bieżąca iteracja">Bieżąca iteracja</a></li>
+			<li class="<%= "iterations".equals(currentPage) ? "current" : "" %>">
+				<a href="<%= application.getContextPath() %>/iterations"
+				title="Lista iteracji">Iteracje</a></li>
+			<li class="<%= "tasks".equals(currentPage) ? "current" : "" %>">
+				<a href="<%= application.getContextPath() %>/tasks" title="Zadania">Zadania</a></li>
+		<% } %>		
 		<% if (_currentUser.isAdmin()) { %>
 		<li class="<%= "users".equals(currentPage) ? "current" : "" %> right">
 			<a href="<%= application.getContextPath() %>/users"

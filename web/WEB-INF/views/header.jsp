@@ -5,10 +5,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+<%! User currentUser = new User(); %>
+<% currentUser = (User) request.getAttribute("current_user"); %>
+
 <link href="<%= application.getContextPath() %>/assets/css/layout.css"
 	rel="stylesheet" media="screen" type="text/css" />
-<link href="<%= application.getContextPath() %>/assets/css/content.css"
-	rel="stylesheet" media="screen" type="text/css" />
+  <link href="<%= application.getContextPath() %>/assets/css/content.css"
+	   rel="stylesheet" media="screen" type="text/css" />
+	
+<% if (currentUser.getId() == null) { %>
+  <link href="<%= application.getContextPath() %>/assets/css/theme.green.css"
+  rel="stylesheet" media="screen" type="text/css" />
+<% } %>
+	
 <script type="text/javascript"
 	src="<%= application.getContextPath() %>/assets/js/application.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -18,8 +27,6 @@
 </head>
 
 <%@ page import="pk.ssi.dedlain.models.User"%>
-<%! User currentUser = new User(); %>
-<% currentUser = (User) request.getAttribute("current_user"); %>
 
 <body class="<%= (String) request.getAttribute("controller") %>">
 	<div id="header">
