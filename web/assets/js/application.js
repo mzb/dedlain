@@ -1,6 +1,6 @@
 function formalLink(link) {
 	var confirmed = link.getAttribute('data-confirm') ? 
-				confirm(link.getAttribute('data-confirm')) : true;
+			confirm(link.getAttribute('data-confirm')) : true;
 	if (confirmed) {
 		var form = document.createElement('form');
 		form.style.display = 'none';

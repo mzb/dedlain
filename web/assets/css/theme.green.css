@@ -1,0 +1,9 @@
+#header {
+  background-color: darkgreen;
+}
+#header #menu a, #header #menu #project-selector {
+  background-color: green;	
+}
+#header #menu a:hover {
+  background-color: #6c6;
+}
