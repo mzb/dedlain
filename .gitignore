@@ -2,5 +2,6 @@
 .project
 .settings
 build/
+dist
 db/*.db
 *.zip
